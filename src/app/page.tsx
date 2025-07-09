@@ -1,95 +1,92 @@
-import Image from "next/image";
+import axios from "axios";
+import PlantCard from "@/components/PlantCard";
 import styles from "./page.module.css";
+import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+type Month = { _id: string; name: string };
+type Earth = { _id: string; type: string };
+type Plant = {
+  _id: string;
+  name: string;
+  description: string;
+  background: string;
+  earth: Earth;
+  seedlingMonths: Month[];
+  harvestMonths: Month[];
+};
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+export default async function Page() {
+  try {
+    const res = await axios.get<Plant[]>("http://localhost:3000/api/plants", {
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    });
+    
+    const plants = res.data;
+
+    return (
+      <main className={styles.homepage}>
+        <header>
+          <h1>Plantéo</h1>
+          <p>L'atlas du Potager</p>
+        </header>
+
+        <section>
+          <article className={styles.explore}>
+            <h2>Explore 🌱</h2>
+            <p>Découvre les plantes déjà référencées</p>
             <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              className={styles.arrow}
+              src="/arrow.svg"
+              alt="Flèche pour explorer les plantes"
+              width={40}
+              height={40}
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
+          </article>
+
+          <ul className="scrollCardContainer">
+            {plants.map((plant) => (
+              <li key={plant._id}>
+                <PlantCard
+                  plant={{
+                    id: plant._id,
+                    name: plant.name,
+                    background: plant.background,
+                    words: plant.description,
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2>
+            🌱 Découvrez, cultivez et enrichissez Plantéo en proposant de
+            nouvelles plantes pour un potager toujours plus vivant !
+          </h2>
+          <ul>
+            <li className={styles.share}>
+              <h3>🌱 Partage</h3> Propose tes plantes favorites et enrichis
+              Plantéo
+            </li>
+            <div>
+              <li>
+                <h3>📅 Planifie</h3> Crée des calendriers de semis et de récoltes
+                pour chaque plante
+              </li>
+              <li>
+                <h3>🌿 Apprends</h3> Découvre des astuces et conseils pour
+                cultiver tes plantes avec succès
+              </li>
+            </div>
+          </ul>
+        </section>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
+
+  } catch (error) {
+    throw new Error("Échec du chargement des plantes");
+  }
 }
