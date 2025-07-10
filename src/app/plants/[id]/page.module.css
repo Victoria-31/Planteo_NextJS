@@ -1,0 +1,67 @@
+.plantDetails header {
+  background-image: url("/BG-plants.jpg");
+  background-size: 200vw;
+  height: 20vh;
+  object-fit: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  color: var(--light);
+  & h2 {
+    margin-top: 2rem;
+  }
+}
+
+.plantDetails {
+  margin-bottom: 3rem;
+  & .action-plant-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    & button {
+      display: flex;
+      justify-content: center;
+      padding: 0.4rem 0.8rem;
+      background-color: var(--primary);
+      font-weight: 700;
+      border-radius: 8px;
+      border: none;
+      color: var(--light);
+    }
+  }
+}
+
+.plantDetails h1 {
+  color: var(--primary);
+  text-align: center;
+  margin-top: 2rem;
+}
+.plantDetails .navigation {
+  text-align: center;
+  padding: 1rem;
+}
+
+.plantInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin: 2rem;
+
+  border: 2px solid var(--second);
+  border-radius: 32px 0px 32px 0px;
+  & img {
+    width: 100%;
+    height: 20vh;
+    object-fit: cover;
+    border-radius: 32px 0px 32px 0px;
+  }
+  & article {
+    padding: 1rem 0;
+  }
+  & p {
+    padding: 0.2rem 1rem;
+  }
+}
