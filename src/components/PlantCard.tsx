@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./plantCard.module.css";
+import styles from "./PlantCard.module.css";
 
 
 type PlantCardProps = {
@@ -22,7 +22,6 @@ export default function PlantCard({ plant }: PlantCardProps) {
         height={200}
         className={styles.plantImage}
       />
-      {/* <img src={plant.background} alt={plant.name} /> */}
       <h3>{plant.name}</h3>
       <p>{plant.description}</p>
       <Link href={`/plantdetails/${plant.id}`}>
