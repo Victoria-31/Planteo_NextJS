@@ -18,9 +18,9 @@ export interface IPlant {
   name: string;
   description: string;
   background: string;
-  earth: Types.ObjectId | IEarth;
-  seedlingMonths: Types.ObjectId[] | IMonth[];
-  harvestMonths: Types.ObjectId[] | IMonth[];
+  earth:  IEarth;
+  seedlingMonths:  IMonth[];
+  harvestMonths:  IMonth[];
 }
 
 export type Plant = {

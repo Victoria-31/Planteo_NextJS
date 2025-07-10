@@ -24,9 +24,9 @@ export default function PlantCard({ plant }: PlantCardProps) {
       />
       <h3>{plant.name}</h3>
       <p>{plant.description}</p>
-      <Link href={`/plantdetails/${plant.id}`}>
-        Je veux tout savoir 🧐
-      </Link>
+     <Link href={`/plants/${plant.id}`}>
+  Je veux tout savoir 🧐
+</Link>
     </article>
   );
 }

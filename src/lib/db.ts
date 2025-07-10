@@ -33,3 +33,17 @@ export async function getAllPlants(): Promise<HydratedDocument<IPlant>[]> {
     throw new Error('Impossible de récupérer les plantes de la base de données');
   }
 }
+
+export async function getPlantById(id: string): Promise<HydratedDocument<IPlant> | null> {
+  try {
+    await dbConnect();
+    return await Plant.findById(id)
+      .populate("earth")
+      .populate("seedlingMonths")
+      .populate("harvestMonths")
+      .exec();
+  } catch (error) {
+    console.error("Erreur récupération plante par id", error);
+    return null;
+  }
+}
