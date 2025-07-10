@@ -4,15 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
-interface PlantPageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default async function PlantPage({ params }: PlantPageProps) {
-const awaitedParams = await params; 
-  const plant = await getPlantById(awaitedParams.id);
+
+export default async function Page({ params }: { params: { id: string } }) {
+  const plant = await getPlantById(params.id);
+
   if (!plant) {
     notFound();
   }
@@ -20,7 +16,7 @@ const awaitedParams = await params;
   return (
     <main className={styles.plantDetails}>
       <header>
-        <h2>L'atlas du potager</h2>
+        <h2>L&apos;atlas du potager</h2>
       </header>
 
       <h1>{plant.name}</h1>
