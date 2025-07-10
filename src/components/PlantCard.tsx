@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./plantCard.module.css";
 
@@ -7,16 +8,23 @@ type PlantCardProps = {
     id: string;
     name: string;
     background: string;
-    words: string;
+    description: string;
   };
 };
 
 export default function PlantCard({ plant }: PlantCardProps) {
   return (
     <article className={styles.plantCard}>
-      <img src={plant.background} alt={plant.name} />
+      <Image
+        src={plant.background}
+        alt={plant.name}
+        width={300}
+        height={200}
+        className={styles.plantImage}
+      />
+      {/* <img src={plant.background} alt={plant.name} /> */}
       <h3>{plant.name}</h3>
-      <p>{plant.words}</p>
+      <p>{plant.description}</p>
       <Link href={`/plantdetails/${plant.id}`}>
         Je veux tout savoir 🧐
       </Link>

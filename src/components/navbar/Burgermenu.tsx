@@ -19,7 +19,7 @@ const links = [
 
 export default function Burgermenu({ isOpen, onClose, onLoginClick }: BurgermenuProps) {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+const { status } = useSession();
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
@@ -28,7 +28,6 @@ export default function Burgermenu({ isOpen, onClose, onLoginClick }: Burgermenu
 
   return (
     <>
-      {/* Overlay pour fermer le menu en cliquant à côté */}
       {isOpen && (
         <div 
           className={styles.overlay}

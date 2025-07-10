@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Burgermenu from './Burgermenu';
+import Image from "next/image";
 import MenuLinks from './MenuLinks';
 import Login from '../login/Login';
 import Link from 'next/link';
@@ -52,7 +53,13 @@ export default function Navbar() {
     
 
   <Link className={styles.logoContainer} href="/">
-    <img src="/logo.png" alt="Logo Plantéo" className={styles.logo} />
+    <Image
+      src="/logo.png"
+      alt="Logo Plantéo"
+      width={100}
+      height={100}
+      className={styles.logo}
+    />
   </Link>
 
     

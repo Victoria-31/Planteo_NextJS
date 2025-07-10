@@ -1,35 +1,19 @@
-import axios from "axios";
 import PlantCard from "@/components/PlantCard";
 import styles from "./page.module.css";
 import Image from "next/image";
+import { getAllPlants } from "@/lib/db";
 
-type Month = { _id: string; name: string };
-type Earth = { _id: string; type: string };
-type Plant = {
-  _id: string;
-  name: string;
-  description: string;
-  background: string;
-  earth: Earth;
-  seedlingMonths: Month[];
-  harvestMonths: Month[];
-};
+
 
 export default async function Page() {
-  try {
-    const res = await axios.get<Plant[]>("http://localhost:3000/api/plants", {
-      headers: {
-        'Cache-Control': 'no-cache'
-      }
-    });
-    
-    const plants = res.data;
+
+    const plants = await getAllPlants() ;
 
     return (
       <main className={styles.homepage}>
         <header>
           <h1>Plantéo</h1>
-          <p>L'atlas du Potager</p>
+          <p>L&apos;atlas du Potager</p>
         </header>
 
         <section>
@@ -47,13 +31,13 @@ export default async function Page() {
 
           <ul className="scrollCardContainer">
             {plants.map((plant) => (
-              <li key={plant._id}>
+              <li key={plant._id.toString()}>
                 <PlantCard
                   plant={{
-                    id: plant._id,
+                    id: plant._id.toString(),
                     name: plant.name,
                     background: plant.background,
-                    words: plant.description,
+                    description: plant.description,
                   }}
                 />
               </li>
@@ -86,7 +70,5 @@ export default async function Page() {
       </main>
     );
 
-  } catch (error) {
-    throw new Error("Échec du chargement des plantes");
-  }
+  
 }

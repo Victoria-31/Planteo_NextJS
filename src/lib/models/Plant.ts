@@ -1,8 +1,11 @@
+
 import { Schema, model, models } from 'mongoose';
-import { IPlant } from '../../types/plant';
+import { IPlant } from '../../types/plant'; 
+
 
 const plantSchema = new Schema<IPlant>(
   {
+    _id: { type: Schema.Types.ObjectId, auto: true },
     name: { type: String, required: true },
     description: { type: String },
     background: { type: String, required: true }, 

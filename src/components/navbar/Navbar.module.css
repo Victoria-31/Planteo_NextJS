@@ -21,6 +21,7 @@
 
 .logoContainer img{
 width: 6rem;
+height: auto;
 }
 
 .mobileLoginButton {

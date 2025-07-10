@@ -19,7 +19,7 @@ const links = [
 
 export default function MenuLinks({ onLinkClick, onLoginClick, className }: MenuLinksProps) {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+const { status } = useSession();
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });

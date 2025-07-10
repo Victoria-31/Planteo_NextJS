@@ -1,8 +1,5 @@
-import { Schema, model, models } from 'mongoose';
-
-export interface IMonth {
-  name: string;
-}
+import { Schema, model, models} from 'mongoose';
+import { IMonth } from '@/types/plant';
 
 const monthSchema = new Schema<IMonth>({
   name: { type: String, required: true },
