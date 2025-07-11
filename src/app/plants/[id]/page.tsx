@@ -4,10 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
-
-
-export default async function Page({ params }: { params: { id: string } }) {
-  const plant = await getPlantById(params.id);
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const plant = await getPlantById(id);
 
   if (!plant) {
     notFound();

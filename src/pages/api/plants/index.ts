@@ -1,14 +1,29 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { dbConnect } from '../../../lib/mongodb';
-import Plant from '../../../lib/models/Plant';
+import { dbConnect } from '@/lib/mongodb';
+import { getFilteredPlants } from '@/lib/db';
+import { HydratedDocument } from 'mongoose';
+import { IPlant } from '@/types/plant';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<HydratedDocument<IPlant>[] | { message: string }>
+) {
   await dbConnect();
 
   if (req.method === 'GET') {
-    const plants = await Plant.find({});
-    res.status(200).json(plants);
-  } else {
-    res.status(405).end();
+    const { name, earthType } = req.query;
+
+    try {
+      const plants = await getFilteredPlants(
+        typeof name === 'string' ? name : undefined,
+        typeof earthType === 'string' ? earthType : undefined
+      );
+
+      return res.status(200).json(plants);
+    } catch (error) {
+      return res.status(500).json({ message: "Erreur lors de la récupération des plantes" });
+    }
   }
+
+  res.status(405).json({ message: 'Méthode non autorisée' });
 }

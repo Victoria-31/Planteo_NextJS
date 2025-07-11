@@ -1,6 +1,7 @@
 
 import '@/lib/models';
 import Plant from './models/Plant'; 
+import Earth from './models/Earth';
 import { dbConnect } from './mongodb';
 import { IPlant } from '@/types/plant';
 import { HydratedDocument } from 'mongoose';
@@ -45,5 +46,51 @@ export async function getPlantById(id: string): Promise<HydratedDocument<IPlant>
   } catch (error) {
     console.error("Erreur récupération plante par id", error);
     return null;
+  }
+}
+
+export async function getFilteredPlants(
+  name?: string,
+  earthType?: string
+): Promise<HydratedDocument<IPlant>[]> {
+  try {
+    await dbConnect();
+
+    const plants = await Plant.find()
+      .populate("earth")
+      .populate("seedlingMonths")
+      .populate("harvestMonths")
+      .exec();
+
+
+    return plants.filter((plant) => {
+      const matchesName = name
+        ? plant.name.toLowerCase().includes(name.toLowerCase())
+        : true;
+
+      const matchesEarth = earthType
+        ? plant.earth?.type === earthType
+        : true;
+
+      return matchesName && matchesEarth;
+    });
+  } catch (error) {
+    console.error("Erreur lors du filtrage des plantes :", error);
+    throw new Error("Impossible de filtrer les plantes");
+  }
+}
+
+export async function getEarthTypes(): Promise<string[]> {
+  try {
+    await dbConnect();
+    
+    const earths = await Earth.find().select('type -_id').exec();
+    
+    const uniqueTypes = [...new Set(earths.map((e) => e.type))];
+
+    return uniqueTypes;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des types de terre :", error);
+    throw new Error("Impossible de récupérer les types de terre");
   }
 }
