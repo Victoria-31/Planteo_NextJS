@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
+import MenuLinks from './MenuLinks';
 import styles from './Burgermenu.module.css';
 
 interface BurgermenuProps {
@@ -11,21 +9,7 @@ interface BurgermenuProps {
   onLoginClick: () => void;
 }
 
-const links = [
-  { name: 'Accueil', path: '/' },
-  { name: 'Catalogue', path: '/plants' },
-  { name: 'Mon jardin', path: '/my-garden' },
-];
-
 export default function Burgermenu({ isOpen, onClose, onLoginClick }: BurgermenuProps) {
-  const pathname = usePathname();
-const { status } = useSession();
-
-  const handleSignOut = async () => {
-    await signOut({ redirect: false });
-    onClose();
-  };
-
   return (
     <>
       {isOpen && (
@@ -42,39 +26,14 @@ const { status } = useSession();
         role="navigation"
         aria-label="Menu principal"
       >
-        <ul className={styles.menuLinks}>
-          {links.map(({ name, path }) => (
-            <li key={name}>
-              <Link
-                href={path}
-                className={`${styles.menuLink} ${pathname === path ? styles.active : ''}`}
-                onClick={onClose}
-              >
-                {name}
-              </Link>
-            </li>
-          ))}
-
-          <li>
-            {status === 'authenticated' ? (
-              <button
-                type="button"
-                className={styles.authButton}
-                onClick={handleSignOut}
-              >
-                Se déconnecter
-              </button>
-            ) : (
-              <button
-                type="button"
-                className={styles.authButton}
-                onClick={onLoginClick}
-              >
-                Se connecter
-              </button>
-            )}
-          </li>
-        </ul>
+        <MenuLinks 
+          className={styles.menuLinks}
+          linkClassName={styles.menuLink}
+          authButtonClassName={styles.authButton}
+          activeClassName={styles.active}
+          onLinkClick={onClose}
+          onLoginClick={onLoginClick}
+        />
       </div>
     </>
   );
