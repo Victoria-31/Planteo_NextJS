@@ -13,17 +13,17 @@ async function seed() {
   try {
     await dbConnect();
 
-    const earthCount = await Earth.countDocuments();
-    if (earthCount === 0) {
-      console.log('Peuplement de la collection Earth...');
-      await Earth.insertMany([
-        { type: 'Humifère' },
-        { type: 'Sableux' },
-      ]);
-      console.log('Terres ajoutées.');
-    } else {
-      console.log('Collection Earth déjà peuplée.');
-    }
+  console.log('Vérification et insertion des types de terre manquants...');
+const earthTypes = ['Humifère', 'Sableux', 'Argileux', 'Calcaire', 'Limoneux', 'Siliceux'];
+
+for (const type of earthTypes) {
+  const exists = await Earth.findOne({ type });
+  if (!exists) {
+    await Earth.create({ type });
+    console.log(`Type de terre ajouté : ${type}`);
+  }
+}
+
 
     const monthCount = await Month.countDocuments();
     if (monthCount === 0) {
@@ -53,54 +53,157 @@ async function seed() {
       await Plant.deleteMany({});
     }
 
-    const humifere = await Earth.findOne({ type: 'Humifère' });
-    const sableux = await Earth.findOne({ type: 'Sableux' });
-
-    if (!humifere || !sableux) {
-      throw new Error('Erreur : types de terre attendus non trouvés.');
-    }
+    const getEarth = async (type: string) => {
+      const earth = await Earth.findOne({ type });
+      if (!earth) throw new Error(`Terre non trouvée : ${type}`);
+      return earth;
+    };
 
     const getMonth = async (name: string) => {
       const month = await Month.findOne({ name });
-      if (!month) {
-        throw new Error(`Erreur : mois non trouvé : ${name}`);
-      }
+      if (!month) throw new Error(`Mois non trouvé : ${name}`);
       return month;
     };
+
+    const humifere = await getEarth('Humifère');
+    const sableux = await getEarth('Sableux');
+    const argileux = await getEarth('Argileux');
+    const calcaire = await getEarth('Calcaire');
+    const limoneux = await getEarth('Limoneux');
 
     const mars = await getMonth('mars');
     const avril = await getMonth('avril');
     const mai = await getMonth('mai');
+    const juin = await getMonth('juin');
     const juillet = await getMonth('juillet');
     const aout = await getMonth('août');
     const septembre = await getMonth('septembre');
+    const octobre = await getMonth('octobre');
 
-    await Plant.insertMany([
-      {
-        name: 'Tomate',
-        description: 'Plante potagère appréciée en été',
-        background: '/tomates.jpg',
-        earth: humifere._id,
-        seedlingMonths: [mars._id, avril._id],
-        harvestMonths: [juillet._id, aout._id],
-      },
-      {
-        name: 'Carotte',
-        description: 'Racine comestible riche en bêta-carotène',
-        background: '/carottes.jpg',
-        earth: sableux._id,
-        seedlingMonths: [mars._id, avril._id, mai._id],
-        harvestMonths: [aout._id, septembre._id],
-      },
-      {
-        name: 'Carotte',
-        description: 'Racine comestible riche en bêta-carotène',
-        background: '/carottes.jpg',
-        earth: sableux._id,
-        seedlingMonths: [mars._id, avril._id, mai._id],
-        harvestMonths: [aout._id, septembre._id],
-      },
-    ]);
+await Plant.insertMany([
+  {
+    name: 'Tomate',
+    description: 'Plante potagère appréciée en été',
+    background: '/tomates.jpg',
+    earth: humifere._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [juillet._id, aout._id],
+  },
+  {
+    name: 'Carotte',
+    description: 'Racine comestible riche en bêta-carotène',
+    background: '/carottes.jpg',
+    earth: sableux._id,
+    seedlingMonths: [mars._id, avril._id, mai._id],
+    harvestMonths: [aout._id, septembre._id],
+  },
+  {
+    name: 'Brocoli',
+    description: 'Légume vert riche en fibres et vitamines',
+    background: '/brocoli.jpg',
+    earth: argileux._id,
+    seedlingMonths: [avril._id, mai._id],
+    harvestMonths: [septembre._id, octobre._id],
+  },
+  {
+    name: 'Chou-fleur',
+    description: 'Légume blanc au goût doux, riche en vitamines',
+    background: '/choufleur.jpg',
+    earth: argileux._id,
+    seedlingMonths: [mai._id, juin._id],
+    harvestMonths: [septembre._id, octobre._id],
+  },
+  {
+    name: 'Ciboulette',
+    description: 'Plante aromatique utilisée en assaisonnement',
+    background: '/ciboulette.jpg',
+    earth: calcaire._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [juin._id, juillet._id],
+  },
+  {
+    name: 'Courgette',
+    description: 'Légume d’été tendre et facile à cuisiner',
+    background: '/courgettes.jpg',
+    earth: humifere._id,
+    seedlingMonths: [avril._id, mai._id],
+    harvestMonths: [juillet._id, aout._id],
+  },
+  {
+    name: 'Épinard',
+    description: 'Feuille verte riche en fer',
+    background: '/epinard.jpg',
+    earth: limoneux._id,
+    seedlingMonths: [mars._id, septembre._id],
+    harvestMonths: [mai._id, octobre._id],
+  },
+  {
+    name: 'Fraise',
+    description: 'Fruit rouge sucré et juteux',
+    background: '/fraise.jpg',
+    earth: humifere._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [juin._id, juillet._id],
+  },
+  {
+    name: 'Haricot',
+    description: 'Légumineuse facile à cultiver',
+    background: '/haricot.jpg',
+    earth: sableux._id,
+    seedlingMonths: [mai._id, juin._id],
+    harvestMonths: [juillet._id, aout._id],
+  },
+  {
+    name: 'Laitue',
+    description: 'Feuille verte de base pour les salades',
+    background: '/laitue.jpg',
+    earth: limoneux._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [mai._id, juin._id],
+  },
+  {
+    name: 'Menthe',
+    description: 'Plante aromatique au goût rafraîchissant',
+    background: '/menthe.jpg',
+    earth: calcaire._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [juin._id, juillet._id],
+  },
+  {
+    name: 'Oignon',
+    description: 'Bulbe indispensable en cuisine',
+    background: '/oignon.jpg',
+    earth: argileux._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [juillet._id, aout._id],
+  },
+  {
+    name: 'Pois',
+    description: 'Légume printanier à grains sucrés',
+    background: '/pois.jpg',
+    earth: limoneux._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [juin._id, juillet._id],
+  },
+  {
+    name: 'Poivron',
+    description: 'Légume coloré, doux ou légèrement amer',
+    background: '/poivron.jpg',
+    earth: humifere._id,
+    seedlingMonths: [avril._id, mai._id],
+    harvestMonths: [aout._id, septembre._id],
+  },
+  {
+    name: 'Radis',
+    description: 'Racine croquante au goût piquant',
+    background: '/radis.jpg',
+    earth: sableux._id,
+    seedlingMonths: [mars._id, avril._id],
+    harvestMonths: [mai._id, juin._id],
+  },
+]);
+
+
 
     console.log('Plantes ajoutées avec succès.');
   } catch (error) {
