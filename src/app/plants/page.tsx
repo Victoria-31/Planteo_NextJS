@@ -2,10 +2,12 @@ import { getFilteredPlants, getEarthTypes } from "@/lib/db";
 import PlantCard from "@/components/PlantCard";
 import styles from "./page.module.css";
 
-export default async function PlantsPage({searchParams}: { searchParams: { name?: string; earth_type?: string } }) {
-
-    const nameFilter = ( await searchParams).name ;
-    const earthTypeFilter = ( await searchParams).earth_type;
+export default async function PlantsPage({
+  searchParams
+}: { 
+  searchParams: Promise<{ name?: string; earth_type?: string }> 
+}) {
+  const { name: nameFilter, earth_type: earthTypeFilter } = await searchParams;
 
   const plants = await getFilteredPlants(nameFilter, earthTypeFilter);
   const earthTypes = await getEarthTypes();

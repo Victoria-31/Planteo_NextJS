@@ -21,6 +21,7 @@ export default async function handler(
 
       return res.status(200).json(plants);
     } catch (error) {
+      console.error('Erreur lors de la récupération des plantes:', error);
       return res.status(500).json({ message: "Erreur lors de la récupération des plantes" });
     }
   }
