@@ -1,0 +1,90 @@
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-self: center;
+    padding: 2rem;
+    width: 70vw;
+    
+    & h2 {
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+    
+   
+   
+    & input {
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: var(--tertiary) 1px solid;
+      background-color: var(--terciary);
+    }
+    
+   
+  }
+
+
+.buttonConnect {
+      background-color: var(--primary);
+      color: var(--light);
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+
+      &:hover {
+        color : var(--dark);
+        background-color: var(--second);font-weight: 600;
+      }
+    }
+
+    .registerPrompt {
+     padding-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--grey-dark);
+    }
+
+    .buttonRegister{
+  border: none;
+    background-color: transparent;
+    font-weight: 600;
+    
+    }
+
+    .buttonCancel {
+      background-color: var(--light);
+      color: var(--primary);
+      padding: 0.6rem 1.2rem;
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        border: none;
+        color : var(--dark);
+        background-color: var(--second);font-weight: 600;
+      }
+    }
+
+@keyframes openModal {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .loginForm {
+   
+      width: 40vw;
+      padding: 1rem;
+
+  }
+}

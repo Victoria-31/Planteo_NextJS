@@ -1,10 +1,13 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import styles from './Login.module.css';
+import Register from "../register/Register";
 
 export default function Login({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showRegister, setShowRegister] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,9 +26,22 @@ export default function Login({ onClose }: { onClose: () => void }) {
     }
   };
 
+  const handleRegisterClick = () => {
+    setShowRegister(true);
+  };
+
+  const handleCloseRegister = () => {
+    setShowRegister(false);
+  };
+
+  // Si on affiche le formulaire d'inscription, on le retourne
+  if (showRegister) {
+    return <Register onClose={handleCloseRegister} />;
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 >Connexion</h2>
+    <form onSubmit={handleSubmit} className={styles.loginForm}>
+      <h2>Connexion</h2>
       <input
         type="email"
         placeholder="Email"
@@ -40,14 +56,21 @@ export default function Login({ onClose }: { onClose: () => void }) {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <div >
-        <button type="button" onClick={onClose} >
-          Annuler
+      <button type="button" onClick={onClose} className={styles.buttonCancel}>
+        Annuler
+      </button>
+      <button type="submit" className={styles.buttonConnect}>
+        Connexion
+      </button>
+
+      <p className={styles.registerPrompt}>
+        Pas encore de compte ?{" "}
+       
+      </p>
+      <button type="button" className={styles.buttonRegister} onClick={handleRegisterClick}>
+          Inscrivez-vous
         </button>
-        <button type="submit" >
-          Connexion
-        </button>
-      </div>
+       
     </form>
   );
 }

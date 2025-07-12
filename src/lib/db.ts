@@ -1,5 +1,6 @@
 
 import '@/lib/models';
+import argon2 from 'argon2';
 import Plant from './models/Plant'; 
 import Earth from './models/Earth';
 import { dbConnect } from './mongodb';
@@ -7,6 +8,37 @@ import { IPlant } from '@/types/plant';
 import { HydratedDocument } from 'mongoose';
 import { IUser } from './models/User';
 import User from './models/User';
+
+interface UserInput {
+  email: string;
+  password: string;
+  name?: string;
+}
+
+export async function createUser({ email, password, name }: UserInput) {
+  await dbConnect;
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new Error('Cet utilisateur existe déjà');
+  }
+
+  const hashedPassword = await argon2.hash(password);
+
+  const newUser = new User({
+    email,
+    password: hashedPassword,
+    name,
+  });
+
+  await newUser.save();
+
+  return {
+    id: newUser._id,
+    email: newUser.email,
+    name: newUser.name,
+  };
+}
 
 export async function getUserByEmail(email: string): Promise<IUser | null> {
   try {
