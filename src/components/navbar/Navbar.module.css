@@ -120,11 +120,10 @@ height: auto;
 }
 
 .modalContent {
-  background: white;
+  background: var(--light);
   border-radius: 8px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
+  width: 70vw;
+  min-height: 60vh;
   overflow-y: auto;
   animation: slideIn 0.3s ease;
 }
@@ -151,6 +150,11 @@ height: auto;
     height: 11vh;
   }
 
+  .modalContent {
+
+  width: 40vw;
+
+  }
   .burgerButton {
     display: none;
   }
