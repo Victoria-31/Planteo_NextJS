@@ -3,8 +3,6 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import { getAllPlants } from "@/lib/db";
 
-
-
 export default async function Page() {
 
     const plants = await getAllPlants() ;
@@ -28,7 +26,6 @@ export default async function Page() {
               height={40}
             />
           </article>
-
           <ul className="scrollCardContainer">
             {plants.map((plant) => (
               <li key={plant._id.toString()}>
