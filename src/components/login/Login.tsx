@@ -34,7 +34,6 @@ export default function Login({ onClose }: { onClose: () => void }) {
     setShowRegister(false);
   };
 
-  // Si on affiche le formulaire d'inscription, on le retourne
   if (showRegister) {
     return <Register onClose={handleCloseRegister} />;
   }
