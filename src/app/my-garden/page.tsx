@@ -12,7 +12,7 @@ export default async function GardenPage() {
       <section>
         <p>Cette page est en construction !</p>
         <p>Tu peux y retrouver tes plantes favorites et les gérer.</p>
-        <p>Reste à l'écoute pour les prochaines mises à jour !</p>
+        <p>Reste à l&apos;écoute pour les prochaines mises à jour !</p>
       </section>
     </main>
   );
