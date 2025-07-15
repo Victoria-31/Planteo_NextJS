@@ -3,6 +3,7 @@ import '@/lib/models';
 import argon2 from 'argon2';
 import Plant from './models/Plant'; 
 import Earth from './models/Earth';
+import { Types } from 'mongoose';
 import { dbConnect } from './mongodb';
 import { IPlant } from '@/types/plant';
 import { HydratedDocument } from 'mongoose';
@@ -12,10 +13,11 @@ import User from './models/User';
 interface UserInput {
   email: string;
   password: string;
-  name?: string;
+  name: string;
+  garden: Types.ObjectId[];
 }
 
-export async function createUser({ email, password, name }: UserInput) {
+export async function createUser({ email, password, name, garden }: UserInput) {
   await dbConnect;
 
   const existingUser = await User.findOne({ email });
@@ -29,6 +31,7 @@ export async function createUser({ email, password, name }: UserInput) {
     email,
     password: hashedPassword,
     name,
+    garden,
   });
 
   await newUser.save();
@@ -37,6 +40,7 @@ export async function createUser({ email, password, name }: UserInput) {
     id: newUser._id,
     email: newUser.email,
     name: newUser.name,
+    garden: newUser.garden,
   };
 }
 
@@ -126,3 +130,41 @@ export async function getEarthTypes(): Promise<string[]> {
     throw new Error("Impossible de récupérer les types de terre");
   }
 }
+
+export async function addPlantToUserGarden(userId: string, plantId: string) {
+  try {
+    await dbConnect();
+
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error("Utilisateur non trouvé");
+    }
+    if (!user.garden) {
+      user.garden = [];
+    }
+
+    const alreadyAdded = user.garden.some(
+  (id: Types.ObjectId) => id.toString() === plantId
+    );
+    if (alreadyAdded) {
+      throw new Error("Plante déjà ajoutée au jardin");
+    }
+
+    user.garden.push(plantId);
+    await user.save();
+
+    return { success: true, garden: user.garden };
+  } catch (error: unknown) {
+
+  if (error instanceof Error) {
+    console.error("Erreur lors de l'ajout de la plante au jardin :", error);
+  }
+    else {
+      console.error("plante déjà ajoutée au jardin");
+    }
+    
+
+    throw new Error("Impossible d'ajouter la plante au jardin de l'utilisateur");
+  }
+}
+

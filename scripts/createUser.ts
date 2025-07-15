@@ -11,7 +11,7 @@ async function createUser() {
   try {
     await dbConnect();
 
-    const email = 'test@example.com';
+    const email = 'test2@example.com';
     const name = 'Utilisateur Test';
     const password = 'motdepasse123';
 
@@ -21,6 +21,7 @@ async function createUser() {
       name,
       email,
       password: hashedPassword,
+      garden: [], 
     });
 
     await user.save();

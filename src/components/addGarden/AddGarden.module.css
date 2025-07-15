@@ -1,0 +1,14 @@
+.buttonAddGarden {
+     background-color: var(--primary);
+      color: var(--light);
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 1rem;
+      &:hover {
+        color : var(--dark);
+        background-color: var(--second);
+        font-weight: 600;
+      }
+}
