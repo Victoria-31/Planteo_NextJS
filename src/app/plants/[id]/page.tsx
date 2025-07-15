@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
+import AddGarden from "@/components/addGarden/AddGarden";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -50,6 +51,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             {plant.harvestMonths.map((month) => month.name).join(", ")}
           </p>
         </article>
+
+        <AddGarden plantId={plant._id.toString()} />
       </section>
     </main>
   );
