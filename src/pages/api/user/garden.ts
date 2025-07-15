@@ -16,8 +16,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await addPlantToUserGarden(userId, plantId);
 
     return res.status(200).json({ success: true });
-  } catch (error: any) {
-    console.error("Erreur API addPlant:", error.message);
-    return res.status(500).json({ message: error.message });
+  } catch (err: unknown) {
+  if (err instanceof Error) {
+    return res.status(400).json({ message: err.message });
   }
+  return res.status(500).json({ message: "Erreur inconnue" });
 }
+}
+
+

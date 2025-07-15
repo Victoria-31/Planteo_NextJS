@@ -3,6 +3,7 @@ import '@/lib/models';
 import argon2 from 'argon2';
 import Plant from './models/Plant'; 
 import Earth from './models/Earth';
+import { Types } from 'mongoose';
 import { dbConnect } from './mongodb';
 import { IPlant } from '@/types/plant';
 import { HydratedDocument } from 'mongoose';
@@ -13,7 +14,7 @@ interface UserInput {
   email: string;
   password: string;
   name: string;
-  garden: string[]; 
+  garden: Types.ObjectId[];
 }
 
 export async function createUser({ email, password, name, garden }: UserInput) {
@@ -143,7 +144,7 @@ export async function addPlantToUserGarden(userId: string, plantId: string) {
     }
 
     const alreadyAdded = user.garden.some(
-      (id: any) => id.toString() === plantId
+  (id: Types.ObjectId) => id.toString() === plantId
     );
     if (alreadyAdded) {
       throw new Error("Plante déjà ajoutée au jardin");
@@ -153,12 +154,15 @@ export async function addPlantToUserGarden(userId: string, plantId: string) {
     await user.save();
 
     return { success: true, garden: user.garden };
-  } catch (error: any) {
-    console.error("Erreur lors de l'ajout de la plante au jardin :", error);
+  } catch (error: unknown) {
 
-    if (error.message === "Plante déjà ajoutée au jardin") {
-      throw error;
+  if (error instanceof Error) {
+    console.error("Erreur lors de l'ajout de la plante au jardin :", error);
+  }
+    else {
+      console.error("plante déjà ajoutée au jardin");
     }
+    
 
     throw new Error("Impossible d'ajouter la plante au jardin de l'utilisateur");
   }
