@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createUser } from '@/lib/db';
+import { Types } from 'mongoose';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -7,7 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
  const { email, password, name } = req.body;
-const garden: string[] = []; 
+
+const garden: Types.ObjectId[] = [];
 
 if (!email || !password) {
   return res.status(400).json({ message: 'Email et mot de passe requis' });
