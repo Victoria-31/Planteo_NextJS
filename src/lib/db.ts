@@ -18,7 +18,7 @@ interface UserInput {
 }
 
 export async function createUser({ email, password, name, garden }: UserInput) {
-  await dbConnect;
+  await dbConnect();
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -168,3 +168,26 @@ export async function addPlantToUserGarden(userId: string, plantId: string) {
   }
 }
 
+export async function getUserPlants(userId: string): Promise<HydratedDocument<IPlant>[]> {
+  try {
+    await dbConnect();
+    
+    const user = await User.findById(userId);
+    if (!user || !user.garden) {
+      throw new Error("Utilisateur introuvable ou jardin vide");
+    }
+
+    const plants = await Plant.find({ _id: { $in: user.garden } })
+      .populate("earth")
+      .populate("seedlingMonths")
+      .populate("harvestMonths")
+      .exec();
+
+    return plants;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Erreur lors de la récupération des plantes du jardin :", error.message);
+    }
+    throw new Error("Impossible de récupérer les plantes du jardin");
+  }
+}
