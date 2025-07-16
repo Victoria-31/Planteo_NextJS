@@ -33,6 +33,7 @@ export default function Register({ onClose }: { onClose: () => void }) {
   return (
     <form onSubmit={handleRegister} className={styles.registerForm}>
       <h2>Inscription</h2>
+      <label htmlFor="name"> Nom</label>
       <input
         type="text"
         placeholder="Nom"
@@ -40,6 +41,8 @@ export default function Register({ onClose }: { onClose: () => void }) {
         onChange={(e) => setName(e.target.value)}
         required
       />
+      <label htmlFor="email"> Email</label>
+
       <input
         type="email"
         placeholder="Email"
@@ -47,6 +50,8 @@ export default function Register({ onClose }: { onClose: () => void }) {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
+      <label htmlFor="password"> Mot de passe</label>
+
       <input
         type="password"
         placeholder="Mot de passe"

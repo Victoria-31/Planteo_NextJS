@@ -18,6 +18,7 @@
       border-radius: 8px;
       border: var(--tertiary) 1px solid;
       background-color: var(--terciary);
+      font-size: 1rem;
     }
     
    
@@ -46,10 +47,11 @@
     }
 
     .buttonRegister{
-  border: none;
+    border: none;
     background-color: transparent;
     font-weight: 600;
-    
+    color: var(--dark);
+    font-size: 1.2rem;
     }
 
     .buttonCancel {
