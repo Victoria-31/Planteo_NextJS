@@ -49,6 +49,9 @@ export default function Login({ onClose }: { onClose: () => void }) {
   return (
     <form onSubmit={handleSubmit} className={styles.loginForm}>
       <h2>Connexion</h2>
+      <label htmlFor="email" >
+  Email
+</label>
       <input
         type="email"
         placeholder="Email"
@@ -56,6 +59,9 @@ export default function Login({ onClose }: { onClose: () => void }) {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
+      <label htmlFor="password" >
+  Mot de passe
+</label>
       <input
         type="password"
         placeholder="Mot de passe"
