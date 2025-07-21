@@ -60,7 +60,7 @@ export default function Register({ onClose }: { onClose: () => void }) {
         required
       />
       <button type="submit" className={styles.buttonSignup}>Créer mon compte</button>
-        <p className="errorMessage">{error}</p>
+      <p className="errorMessage">{error}</p>
       <button type="button" className={styles.buttonBackSignin} onClick={onClose}>
         Retour à la connexion
       </button>
