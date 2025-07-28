@@ -19,7 +19,7 @@
   border-radius: 8px;
   margin: 0 2.6rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   border: 2px solid var(--second);
 }
 

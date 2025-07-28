@@ -1,5 +1,5 @@
 import { getFilteredPlants, getEarthTypes } from "@/lib/db";
-import PlantCard from "@/components/PlantCard";
+import PlantCard from "@/components/plantCard/PlantCard";
 import styles from "./page.module.css";
 
 export default async function PlantsPage({

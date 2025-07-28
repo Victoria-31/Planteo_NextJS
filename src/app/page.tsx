@@ -1,4 +1,4 @@
-import PlantCard from "@/components/PlantCard";
+import PlantCard from "@/components/plantCard/PlantCard";
 import styles from "./page.module.css";
 import Image from "next/image";
 import { getAllPlants } from "@/lib/db";

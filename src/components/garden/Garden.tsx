@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styles from './Garden.module.css';
 import { IPlant } from "@/types/plant";
-import PlantCard from "../PlantCard";
+import PlantCard from "../plantCard/PlantCard";
 
 export default function GardenClientWrapper() {
   const { data: session } = useSession();

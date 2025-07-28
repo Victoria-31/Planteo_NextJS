@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "argon2": "^0.43.0",
@@ -19,7 +21,12 @@
     "react-toastify": "^11.0.5"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^4.0.1",
     "@eslint/eslintrc": "^3",
+    "@storybook/addon-a11y": "^9.0.17",
+    "@storybook/addon-docs": "^9.0.17",
+    "@storybook/addon-onboarding": "^9.0.17",
+    "@storybook/addon-vitest": "^9.0.17",
     "@types/dotenv": "^6.1.1",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^20",
@@ -28,7 +35,14 @@
     "dotenv": "^17.0.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
+    "eslint-plugin-storybook": "^9.0.17",
+    "storybook": "^9.0.17",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@storybook/nextjs-vite": "^9.0.17",
+    "vitest": "^3.2.4",
+    "@vitest/browser": "^3.2.4",
+    "playwright": "^1.54.1",
+    "@vitest/coverage-v8": "^3.2.4"
   }
 }
